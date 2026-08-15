@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
       if (file.name.endsWith('.pdf')) {
         try {
           // Dynamic import of pdf-parse to handle serverless node environment
-          const pdfParse = (await import('pdf-parse')).default;
+          const pdfParseModule: any = await import('pdf-parse');
+          const pdfParse = pdfParseModule.default || pdfParseModule;
           const pdfData = await pdfParse(fileBuffer);
           contentToProcess = pdfData.text;
         } catch (pdfErr) {
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
         }
       } else if (file.name.endsWith('.docx')) {
         try {
-          const mammoth = await import('mammoth');
+          const mammoth: any = await import('mammoth');
           const result = await mammoth.extractRawText({ buffer: fileBuffer });
           contentToProcess = result.value;
         } catch (docxErr) {
