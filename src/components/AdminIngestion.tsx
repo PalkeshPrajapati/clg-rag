@@ -1,13 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Upload, FileText, CheckCircle, AlertCircle, Sparkles, Database, Layers, Tag, Plus, ArrowRight } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Sparkles, Database, Layers, Tag, Plus, ArrowRight, Lock, Key } from 'lucide-react';
 import { Category } from '@/lib/types';
 
-const CATEGORIES: Category[] = ['Academics', 'Examinations', 'Hostel & Mess', 'Placements', 'Events', 'General'];
+const CATEGORIES: Category[] = [
+  'Admission',
+  'Training & Placement',
+  'Complaints',
+  'Student Services',
+  'Academics',
+  'Examinations',
+  'Hostel & Mess',
+  'Events',
+  'General',
+];
 const DEPARTMENTS = ['All Departments', 'Computer Science & Engg', 'Electronics & Comm', 'Mechanical Engg', 'Civil Engg', 'Information Tech'];
-
-import { Lock, ShieldAlert, Key } from 'lucide-react';
 
 interface AdminIngestionProps {
   onDocumentAdded: () => void;
@@ -28,22 +36,22 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
   if (userRole !== 'ADMIN') {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center space-y-6">
-        <div className="p-10 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-2xl space-y-6 relative overflow-hidden">
-          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto">
+        <div className="p-10 rounded-3xl bg-white border border-slate-200 shadow-2xl space-y-6 relative overflow-hidden">
+          <div className="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center mx-auto shadow-xs">
             <Lock className="w-8 h-8" />
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-2xl font-extrabold text-slate-100">Admin Authorization Required</h2>
-            <p className="text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-              Document upload & vector indexing privileges are strictly restricted to <strong>College Staff & Faculty Admins</strong> to protect knowledge base integrity. Students cannot upload or modify official campus documents.
+            <h2 className="text-2xl font-extrabold text-slate-900">Admin Authorization Required</h2>
+            <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+              Document upload & vector indexing privileges are strictly restricted to <strong>College Staff & Faculty Admins</strong> to protect knowledge base integrity.
             </p>
           </div>
 
           <div className="pt-2">
             <button
               onClick={onOpenAuth}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-indigo-600 hover:opacity-95 text-white font-semibold text-sm shadow-xl shadow-amber-500/20 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-500/20 transition-all"
             >
               <Key className="w-4 h-4" />
               <span>Log In as Admin / Faculty</span>
@@ -120,34 +128,33 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
       {/* Header Banner */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 shadow-2xl relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 border border-blue-200/80 shadow-xs relative overflow-hidden">
         <div className="relative flex items-start gap-4">
-          <div className="p-3.5 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400">
-            <Upload className="w-7 h-7" />
+          <div className="p-3.5 rounded-2xl bg-blue-600 text-white shadow-xs">
+            <Upload className="w-6 h-6" />
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-slate-100">Admin Document Ingestion Hub</h2>
-              <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <h2 className="text-xl font-bold text-slate-900">Admin Document Ingestion Hub</h2>
+              <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-blue-100 text-blue-700 border border-blue-200 uppercase">
                 Vector Indexer
               </span>
             </div>
-            <p className="text-sm text-slate-400 max-w-xl">
-              Upload official college circulars, course syllabi, examination schedules, hostel manuals, or placement rules. Content is automatically parsed, chunked, embedded using Google Gemini, and indexed into Supabase pgvector.
+            <p className="text-sm text-slate-600 max-w-xl leading-relaxed">
+              Upload official college circulars, course syllabi, examination schedules, hostel manuals, or placement rules. Content is automatically chunked, embedded using Gemini, and indexed into Supabase pgvector.
             </p>
           </div>
         </div>
       </div>
 
       {/* Ingestion Mode Toggle */}
-      <div className="flex p-1.5 rounded-2xl bg-slate-900 border border-slate-800 text-sm font-semibold max-w-md mx-auto">
+      <div className="flex p-1 rounded-2xl bg-slate-200/80 border border-slate-200 text-sm font-semibold max-w-md mx-auto">
         <button
           onClick={() => setActiveTab('file')}
           className={`flex-1 py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 ${
             activeTab === 'file'
-              ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-500/20'
-              : 'text-slate-400 hover:text-white'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -158,8 +165,8 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
           onClick={() => setActiveTab('text')}
           className={`flex-1 py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 ${
             activeTab === 'text'
-              ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-500/20'
-              : 'text-slate-400 hover:text-white'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <Plus className="w-4 h-4" />
@@ -172,47 +179,47 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
         <div
           className={`p-4 rounded-2xl border text-sm flex items-center gap-3 ${
             statusMessage.type === 'success'
-              ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-200'
-              : 'bg-red-950/50 border-red-500/40 text-red-200'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              : 'bg-red-50 border-red-200 text-red-800'
           }`}
         >
           {statusMessage.type === 'success' ? (
-            <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+            <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
           ) : (
-            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
           )}
-          <span>{statusMessage.text}</span>
+          <span className="font-medium">{statusMessage.text}</span>
         </div>
       )}
 
       {/* Form Card */}
-      <form onSubmit={handleFileUpload} className="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-6">
+      <form onSubmit={handleFileUpload} className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xl shadow-blue-500/5 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Document Title */}
           <div className="space-y-2 md:col-span-2">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-              Document Title <span className="text-red-400">*</span>
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Document Title <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g., CS301 Syllabus 2026 or Hostel Regulation Circular No. 4"
-              className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+              placeholder="e.g., CS301 Syllabus 2026 or Placement Drive Circular No. 4"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-blue-500 text-sm font-medium transition-all"
             />
           </div>
 
           {/* Category Selection */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Tag className="w-3.5 h-3.5 text-indigo-400" />
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <Tag className="w-3.5 h-3.5 text-blue-600" />
               <span>Category</span>
             </label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value as Category)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm font-medium cursor-pointer"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 text-sm font-semibold cursor-pointer transition-all"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -224,14 +231,14 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
 
           {/* Department Selection */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-indigo-400" />
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-blue-600" />
               <span>Department / Batch</span>
             </label>
             <select
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm font-medium cursor-pointer"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 text-sm font-semibold cursor-pointer transition-all"
             >
               {DEPARTMENTS.map((dept) => (
                 <option key={dept} value={dept}>
@@ -245,10 +252,10 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
         {/* Input area: File Upload or Raw Text */}
         {activeTab === 'file' ? (
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
               Select Document File (.pdf, .txt, .md, .docx)
             </label>
-            <div className="relative border-2 border-dashed border-slate-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center bg-slate-950/50 transition-all">
+            <div className="relative border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-slate-50/60 hover:bg-blue-50/20 transition-all">
               <input
                 type="file"
                 accept=".pdf,.txt,.md,.docx"
@@ -256,20 +263,20 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               <div className="flex flex-col items-center justify-center space-y-2 pointer-events-none">
-                <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400">
+                <div className="p-3 rounded-2xl bg-blue-100 text-blue-600">
                   <FileText className="w-8 h-8" />
                 </div>
                 {file ? (
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-emerald-400">{file.name}</p>
-                    <p className="text-xs text-slate-400">{(file.size / 1024).toFixed(1)} KB</p>
+                    <p className="text-sm font-bold text-emerald-600">{file.name}</p>
+                    <p className="text-xs text-slate-500">{(file.size / 1024).toFixed(1)} KB</p>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-sm font-medium text-slate-200">
+                    <p className="text-sm font-semibold text-slate-800">
                       Click to browse or drag and drop college file
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">Supports PDF, Markdown, TXT, DOCX files</p>
+                    <p className="text-xs text-slate-400 mt-1">Supports PDF, Markdown, TXT, DOCX files</p>
                   </div>
                 )}
               </div>
@@ -277,7 +284,7 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
           </div>
         ) : (
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
               Circular / Notice Content
             </label>
             <textarea
@@ -285,7 +292,7 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Paste official notice text, guidelines, syllabus rules, or exam instructions here..."
-              className="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm leading-relaxed"
+              className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-blue-500 text-sm leading-relaxed transition-all font-medium"
             />
           </div>
         )}
@@ -295,7 +302,7 @@ export const AdminIngestion: React.FC<AdminIngestionProps> = ({ onDocumentAdded,
           <button
             type="submit"
             disabled={isUploading}
-            className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-95 text-white font-semibold text-sm shadow-xl shadow-indigo-500/25 disabled:opacity-50 transition-all"
+            className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-500/20 disabled:opacity-50 transition-all"
           >
             {isUploading ? (
               <>

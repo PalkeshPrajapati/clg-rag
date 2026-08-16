@@ -56,14 +56,14 @@ export const DocumentList: React.FC<DocumentListProps> = ({ userRole, refreshTri
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl bg-white border border-slate-200 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400">
+          <div className="p-3 rounded-2xl bg-blue-50 text-blue-600 border border-blue-200">
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-slate-100">Indexed Knowledge Hub</h2>
-            <p className="text-xs text-slate-400">
+            <h2 className="text-xl font-extrabold text-slate-900">Indexed Knowledge Hub</h2>
+            <p className="text-xs text-slate-500">
               {documents.length} verified college document(s) stored in Supabase pgvector
             </p>
           </div>
@@ -72,9 +72,9 @@ export const DocumentList: React.FC<DocumentListProps> = ({ userRole, refreshTri
         <button
           onClick={fetchDocuments}
           disabled={isLoading}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-slate-300 transition-colors"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors"
         >
-          <RefreshCw className={`w-3.5 h-3.5 text-indigo-400 ${isLoading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 text-blue-600 ${isLoading ? 'animate-spin' : ''}`} />
           <span>Refresh List</span>
         </button>
       </div>
@@ -83,15 +83,15 @@ export const DocumentList: React.FC<DocumentListProps> = ({ userRole, refreshTri
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 animate-pulse h-40" />
+            <div key={n} className="p-6 rounded-2xl bg-white border border-slate-200 animate-pulse h-40" />
           ))}
         </div>
       ) : documents.length === 0 ? (
-        <div className="p-12 rounded-3xl bg-slate-950/60 border border-slate-800/80 text-center space-y-3">
-          <Database className="w-12 h-12 text-slate-600 mx-auto" />
-          <h3 className="text-base font-semibold text-slate-300">No Documents Indexed Yet</h3>
+        <div className="p-12 rounded-3xl bg-white border border-slate-200 text-center space-y-3 shadow-xs">
+          <Database className="w-12 h-12 text-slate-300 mx-auto" />
+          <h3 className="text-base font-extrabold text-slate-800">No Documents Indexed Yet</h3>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
-            The knowledge base is currently clean. Switch to the <strong>Admin Hub</strong> tab to upload syllabi, circulars, exam schedules, or regulations.
+            The knowledge base is currently clean. Use the <strong>Document Upload</strong> tab to index syllabi, circulars, exam schedules, or regulations.
           </p>
         </div>
       ) : (
@@ -99,20 +99,20 @@ export const DocumentList: React.FC<DocumentListProps> = ({ userRole, refreshTri
           {documents.map((doc) => (
             <div
               key={doc.id}
-              className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all space-y-4 shadow-lg flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-blue-500/50 transition-all space-y-4 shadow-2xs hover:shadow-md flex flex-col justify-between"
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-indigo-400 flex-shrink-0" />
-                    <h3 className="font-semibold text-sm text-slate-100 line-clamp-2">{doc.title}</h3>
+                    <FileText className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <h3 className="font-extrabold text-sm text-slate-900 line-clamp-2">{doc.title}</h3>
                   </div>
 
                   {userRole === 'ADMIN' && (
                     <button
                       onClick={() => handleDelete(doc.id, doc.title)}
                       disabled={deletingId === doc.id}
-                      className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                       title="Delete Document"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -121,21 +121,21 @@ export const DocumentList: React.FC<DocumentListProps> = ({ userRole, refreshTri
                 </div>
 
                 <div className="flex flex-wrap gap-2 text-xs">
-                  <span className="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-medium">
+                  <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 font-semibold">
                     {doc.category}
                   </span>
-                  <span className="px-2.5 py-1 rounded-lg bg-slate-950 text-slate-400 border border-slate-800">
+                  <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 font-medium">
                     {doc.department}
                   </span>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
-                <div className="flex items-center gap-1">
-                  <Database className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-slate-300 font-medium">{doc.chunk_count || 1} chunks</span>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <div className="flex items-center gap-1 font-semibold text-slate-700">
+                  <Database className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>{doc.chunk_count || 1} vector chunks</span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 font-medium">
                   <Calendar className="w-3.5 h-3.5" />
                   <span>{new Date(doc.created_at).toLocaleDateString()}</span>
                 </div>

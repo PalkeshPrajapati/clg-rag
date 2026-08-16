@@ -1,45 +1,77 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Database, MessageSquare } from 'lucide-react';
+import { GraduationCap, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  activeNav?: string;
+  onNavClick?: (nav: string) => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+  activeNav = 'Home',
+  onNavClick,
+}) => {
+  const navItems = [
+    'Home',
+    'Ask Campus Saathi',
+  ];
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800/80 px-4 lg:px-8 py-3.5 shadow-2xl">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white border-b border-slate-200 px-4 lg:px-8 py-3.5 shadow-xs">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-3 cursor-pointer">
-          <div className="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-emerald-400 p-[1.5px] shadow-lg shadow-indigo-500/20">
-            <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-emerald-400 animate-pulse" />
-            </div>
+        <Link href="/" className="flex items-center gap-2.5 cursor-pointer">
+          <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-xs">
+            <GraduationCap className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">
-                CampusBrain
-              </span>
-              <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 tracking-wide uppercase">
-                RAG AI
+            <div className="flex items-center gap-1.5">
+              <span className="font-extrabold text-lg text-slate-900 tracking-tight">
+                Campus Saathi
               </span>
             </div>
-            <p className="text-xs text-slate-400 font-medium">College Knowledge Engine & Student Portal</p>
+            <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 -mt-1">
+              AI COMPANION
+            </p>
           </div>
         </Link>
 
-        {/* Portal Status & Badges */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300">
-            <MessageSquare className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Student Q&A Mode</span>
-          </div>
+        {/* Center Nav Links */}
+        <nav className="flex items-center gap-1">
+          {navItems.map((item) => {
+            const isActive = activeNav === item;
+            return (
+              <button
+                key={item}
+                onClick={() => onNavClick && onNavClick(item)}
+                className={`relative px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                  isActive
+                    ? 'text-blue-600 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                }`}
+              >
+                {item}
+                {isActive && (
+                  <span className="absolute bottom-0 left-3 right-3 h-[2.5px] bg-blue-600 rounded-full" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs text-emerald-300">
-            <Database className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Supabase pgvector</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-          </div>
+        {/* Right Header Actions */}
+        <div className="flex items-center gap-3">
+          {/* Admin Button */}
+          <Link
+            href="/admin"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs transition-all"
+            title="Admin Access Portal"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Admin</span>
+          </Link>
         </div>
       </div>
     </header>

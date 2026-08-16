@@ -1,8 +1,11 @@
 export type Category = 
+  | 'Admission'
+  | 'Training & Placement'
+  | 'Complaints'
+  | 'Student Services'
   | 'Academics' 
   | 'Examinations' 
   | 'Hostel & Mess' 
-  | 'Placements' 
   | 'Events' 
   | 'General';
 
